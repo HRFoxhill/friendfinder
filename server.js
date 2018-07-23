@@ -16,7 +16,7 @@ var PORT = process.env.PORT || 8080;
 // MySQL DB Connection Information (remember to change this with our specific credentials)
 var connection = mysql.createConnection({
   host: "localhost",
-  port: 8080,
+  port: 3306,
   user: "root",
   password: "root",
   database: "friendfinder_db"
@@ -33,9 +33,6 @@ connection.connect(function(err) {
 
 // EXPRESS CONFIGURATION
 // This sets up the basic properties for our express server 
-
-var app = express(); // Tells node that we are creating an "express" server
-var PORT = process.env.PORT || 3000; // Sets an initial port. We'll use this later in our listener
 
 // BodyParser makes it easy for our server to interpret data sent to it.
 // The code below is pretty standard.
