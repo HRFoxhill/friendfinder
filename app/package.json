@@ -1,0 +1,31 @@
+{
+  "name": "friendfinder",
+  "version": "1.0.0",
+  "description": "Friend Finding App",
+  "main": "index.js",
+  "dependencies": {
+    "autoloader": "^2.1.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mysql": "^2.16.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "TEST"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/HRFoxhill/friendfinder.git"
+  },
+  "keywords": [
+    "friend",
+    "finder"
+  ],
+  "author": "Heather Foxhill",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HRFoxhill/friendfinder/issues"
+  },
+  "homepage": "https://github.com/HRFoxhill/friendfinder#readme"
+}
