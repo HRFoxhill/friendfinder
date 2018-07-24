@@ -1,58 +1,57 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var path = require('path');
-var friends = require('../data/friends.js')
-var app = express();
+const surveyData = require("../data/friends.js");
 
-var totalDifference = 0;
+module.exports = function(app) {
+  var scoreArray = [];
+  var lastArray = [];
+  
+    app.get("/api/friends", function(req, res) {
+      res.json(surveyData);
+    });
+  
+    app.post("/api/friends", function(req, res) {
 
-module.exports = function(app){
-	app.get('/api/friends', function(req, res){
-		res.json(friends);
-	});
+      const masterLead = (inArr) =>{
+        lastArray.push(inArr.pop());
+        lastArray.forEach(item => {
+            lastScore = (item.scores).map(Number) ;
+            let sumOf = lastScore.reduce((acc, cur) => {return acc + cur}, 0)
+            let lastEntrySum = sumOf;
+            secGuy(inArr, lastEntrySum)
+        });
+      };
+      
+      const secGuy = (inSecArr, inOperator) =>{
+        let firstOperator = true;
+        let operator = inOperator;
+        let currentOperator = 0;
+        inSecArr.forEach(element => {
+            scoreArray = (element.scores).map(Number);
+            objName = element.name;
+            objImg = element.photo;
+            let sumArrayAll = scoreArray.reduce((acc, cur) => {return acc + cur}, 0)  
+            let compare = Math.abs(sumArrayAll - operator);
+            if (firstOperator === true){
+                currentOperator = compare;
+                firstOperator = false;
+            }
+            if (compare <= currentOperator){
+                currentOperator = compare;
+                winner = sumArrayAll;
+                winnerName = objName;
+                winnerImg = objImg;
+            }
+            else {return true}
+        });
+        res.json({name: winnerName, photo: winnerImg})
+    };
 
-//API POST Request-handles when user submits a form & thus submits data to the server.
-// In each of the below cases, when a user submits form data (a JSON object)
-// ...the JSON is pushed to the appropriate Javascript array
+    if (surveyData) {
+      surveyData.push(req.body);
+      //res.json(surveyData);
+      let newArray = surveyData.slice();
+      masterLead(newArray);
+    }
 
-
-	app.post('/api/friends', function(req, res){
-
-		var greatMatch = {
-			name: "",
-			image: "",
-			matchDifference: 1000
-		};
-		var usrData 	= req.body;
-		var usrName 	= usrData.name;
-		var usrImage 	= usrData.image;
-		var usrScores 	= usrData.scores;
-
-		var totalDifference = 0;
-
-		//loop through the friends data array of objects to get each friends scores
-		for(var i = 0; i < [friends].length-1; i++){
-			console.log(friends[i].name);
-			totalDifference = 0;
-
-			//loop through that friends score and the users score and calculate the 
-			// absolute difference between the two and push that to the total difference variable set above
-			for(var j = 0; j < 10; j++){
-				// We calculate the difference between the scores and sum them into the totalDifference
-				totalDifference += Math.abs(parseInt(usrScores[j]) - parseInt(friends[i].scores[j]));
-				// If the sum of differences is less then the differences of the current "best match"
-				if (totalDifference <= greatMatch.friendDifference){
-
-					// Reset the bestMatch to be the new friend. 
-					greatMatch.name = friends[i].name;
-					greatMatch.photo = friends[i].photo;
-					greatMatch.matchDifference = totalDifference;
-				}
-			}
-		}
-
-		friends.push(usrData);
- 
-		res.json(greatMatch);
-	});
-};
+  });
+  
+  };

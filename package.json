@@ -6,6 +6,7 @@
   "dependencies": {
     "autoloader": "^2.1.0",
     "body-parser": "^1.18.3",
+    "chosen-js": "^1.8.7",
     "express": "^4.16.3",
     "mysql": "^2.16.0",
     "path": "^0.12.7"
